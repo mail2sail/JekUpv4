@@ -23,7 +23,7 @@ pipeline {
                 sh "mvn test"
             }
         }
-        stage('Build') {
+        stage('Package') {
             steps {
                 // Run Maven on a Unix agent.
                 sh "mvn package"
