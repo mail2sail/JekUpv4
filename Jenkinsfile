@@ -6,14 +6,27 @@ pipeline {
             steps {
                 echo "Precheck is getting performed....."
             }
-        }    
+        }
+        stage('SCM Checkout') {
+            steps {
+            	// Get some code from a GitHub repository
+                git branch: 'master', url: 'https://github.com/mail2sail/JekUpv4.git'
+            }
+        }
         stage('Build') {
             steps {
-                // Get some code from a GitHub repository
-                git 'https://github.com/mail2sail/JekUpv4.git'
-
+                sh "mvn compile"
+            }
+        }
+        stage('Test') {
+            steps {
+                sh "mvn test"
+            }
+        }
+        stage('Build') {
+            steps {
                 // Run Maven on a Unix agent.
-                sh "mvn clean package"
+                sh "mvn package"
 
                 // To run Maven on a Windows agent, use
                 // bat "mvn -Dmaven.test.failure.ignore=true clean package"
