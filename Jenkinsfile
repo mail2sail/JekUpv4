@@ -1,6 +1,8 @@
 pipeline {
     agent any
-
+    parameters {
+  		booleanParam defaultValue: true, name: 'IsSonarCubeAnalysisRequired'
+	}
     stages {
         stage('Precheck') {
             steps {
@@ -13,6 +15,18 @@ pipeline {
                 git branch: 'master', url: 'https://github.com/mail2sail/JekUpv4.git'
             }
         }
+        
+        if(${IsSonarCubeAnalysisRequired}){
+            stage('Code Quality Analysis') {
+            	steps {
+            	// Get some code from a GitHub repository
+                echo "Code Quality Analysis"
+            	}
+        	}
+        }
+
+        
+        
         stage('Build') {
             steps {
                 sh "mvn compile"
