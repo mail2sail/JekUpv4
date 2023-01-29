@@ -16,16 +16,17 @@ pipeline {
             }
         }
         
-        if(${IsSonarCubeAnalysisRequired}){
-            stage('Code Quality Analysis') {
-            	steps {
+        stage('Code Quality Analysis') {
+        when {
+                expression {
+                    return params.IsSonarCubeAnalysisRequired
+                }
+            }
+            steps {
             	// Get some code from a GitHub repository
                 echo "Code Quality Analysis"
-            	}
-        	}
+            }
         }
-
-        
         
         stage('Build') {
             steps {
